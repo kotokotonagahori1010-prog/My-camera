@@ -120,13 +120,13 @@ document.getElementById("share").onclick = async () => {
         video.srcObject = stream;
         await video.play();
       } catch (error) {
-        alert("カメラを起動できませんでした: " + error.message);
+        alert("写真を準備できませんでした。心安らかじゃない。: " + error.message);
       }
     };
 
     document.getElementById("capture").onclick = () => {
       if (!video.videoWidth) {
-        alert("先にカメラを起動してね！");
+        alert("カメラ起動させろや馬鹿　このクソ");
         return;
       }
 

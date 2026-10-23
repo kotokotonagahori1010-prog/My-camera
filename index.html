@@ -97,7 +97,25 @@
         video, 0, 0, canvas.width, canvas.height
       );
 
-      photo.src = canvas.toDataURL("image/jpeg", 0.95);
+const imageData = canvas.toDataURL("image/jpeg", 0.95);
+photo.src = imageData;
+
+const saveLink = document.createElement("a");
+saveLink.href = imageData;
+saveLink.download = "my-photo.jpg";
+saveLink.textContent = "写真を保存";
+saveLink.style.display = "inline-block";
+saveLink.style.padding = "12px 20px";
+saveLink.style.margin = "12px";
+saveLink.style.background = "#66aaff";
+saveLink.style.color = "#000";
+saveLink.style.borderRadius = "12px";
+
+const oldLink = document.getElementById("saveLink");
+if (oldLink) oldLink.remove();
+
+saveLink.id = "saveLink";
+photo.insertAdjacentElement("afterend", saveLink);
     };
   </script>
 </body>

@@ -57,12 +57,52 @@
 
   <button id="start">カメラを起動</button>
   <button id="capture">撮影する</button>
-
+<button id="share">ChatGPTに送る 🤖</button>
   <canvas id="canvas" hidden></canvas>
 
   <h2>撮影した写真</h2>
   <img id="photo" alt="撮影した写真">
+document.getElementById("share").onclick = async () => {
+  if (!photo.src || !video.videoWidth) {
+    alert("先にカメラを起動して写真を撮ってね！");
+    return;
+  }
 
+  try {
+    const blob = await new Promise(resolve => {
+      canvas.toBlob(resolve, "image/jpeg", 0.95);
+    });
+
+    if (!blob) {
+      alert("写真を準備できませんでした。");
+      return;
+    }
+
+    const file = new File(
+      [blob],
+      "my-photo.jpg",
+      { type: "image/jpeg" }
+    );
+
+    if (
+      navigator.canShare &&
+      navigator.canShare({ files: [file] }) &&
+      navigator.share
+    ) {
+      await navigator.share({
+        files: [file],
+        title: "撮影した写真",
+        text: "この写真について質問したいです。"
+      });
+    } else {
+      alert("この端末では写真の共有に対応していません。写真を保存してChatGPTに添付してね！");
+    }
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      alert("共有できませんでした。写真を保存して試してね！");
+    }
+  }
+};
   <script>
     const video = document.getElementById("video");
     const canvas = document.getElementById("canvas");

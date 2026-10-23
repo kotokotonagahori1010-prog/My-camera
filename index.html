@@ -64,7 +64,7 @@
   <img id="photo" alt="撮影した写真">
 document.getElementById("share").onclick = async () => {
   if (!photo.src || !video.videoWidth) {
-    alert("先にカメラを起動して写真を撮ってね！");
+    alert("カメラ起動させろや馬鹿　このクソ");
     return;
   }
 
@@ -74,7 +74,7 @@ document.getElementById("share").onclick = async () => {
     });
 
     if (!blob) {
-      alert("写真を準備できませんでした。");
+      alert("写真を準備できませんでした。心安らかじゃない。");
       return;
     }
 

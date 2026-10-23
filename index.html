@@ -62,6 +62,43 @@
 
   <h2>撮影した写真</h2>
   <img id="photo" alt="撮影した写真">
+
+<script>
+document.getElementById("share").onclick = async () => {
+  if (!photo.src || !video.videoWidth) {
+    alert("カメラ起動させろや馬鹿　このクソ");
+    return;
+  }
+
+  try {
+    const blob = await new Promise(resolve => {
+      canvas.toBlob(resolve, "image/jpeg", 0.95);
+    });
+
+    if (!blob) {
+      alert("写真を準備できませんでした。心安らかじゃない。");
+      return;
+    }
+
+    const file = new File([blob], "my-photo.jpg", { type: "image/jpeg" });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share) {
+      await navigator.share({
+        files: [file],
+        title: "撮影した写真",
+        text: "この写真について質問したいです。"
+      });
+    } else {
+      alert("この端末では写真の共有に対応していません。写真を保存してChatGPTに添付してね！");
+    }
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      alert("共有できませんでした。写真を保存して試してね！");
+    }
+  }
+};
+</script>
+
 document.getElementById("share").onclick = async () => {
   if (!photo.src || !video.videoWidth) {
     alert("カメラ起動させろや馬鹿　このクソ");
